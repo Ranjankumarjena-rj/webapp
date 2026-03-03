@@ -1,57 +1,40 @@
-pipeline{
- tools{
+pipeline {
+
+    agent any
+
+    tools {
         jdk 'JAVA_HOME'
         maven 'M2_HOME'
     }
-     agent any
-	  
-	  stages{
-	  
-	  stage("checkout"){
-	   steps{
-	   git 'https://github.com/Ranjankumarjena-rj/webapp'
-	   }
-	                  }
-	
-	   stage("compile"){
-	    steps{
-		 sh 'mvn compile'
-		}
-		}
-       stage("test"){
-	    steps{
-		 sh 'mvn test'
-		}
-		}
-       stage("package"){
-	    steps{
-		 sh 'mvn clean package'
-                 sh "mv target/*.war target/myweb.war"
 
-		}
-		}
-		  
-      stage("deploy"){
-	    steps{
-		 
-        sshagent(['tomcat']) {
-    
-   
-        sh """
-                 
-            scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@13.232.170.2:/home/ec2-user/tomcat10/apache-tomcat-10.1.52/webapps/
+    environment {
+        SERVER_IP = '13.232.170.2'
+        TOMCAT_PATH = '/home/ec2-user/tomcat10/apache-tomcat-10.1.52'
+    }
 
-              ssh ec2-user@13.232.170.2 /home/ec2-user/tomcat10/apache-tomcat-10.1.52/bin/shutdown.sh
-              ssh ec2-user@13.232.170.2 /home/ec2-user/tomcat10/apache-tomcat-10.1.52/bin/startup.sh
-            
-          
-          """
+    stages {
 
+        stage("Checkout") {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Ranjankumarjena-rj/webapp'
+            }
+        }
 
+        stage("Build") {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
 
-    // some block
+        stage("Deploy") {
+            steps {
+                sshagent(['tomcat']) {
+                    sh """
+                        scp -o StrictHostKeyChecking=no target/*.war ec2-user@${SERVER_IP}:${TOMCAT_PATH}/webapps/
+                    """
+                }
+            }
+        }
+    }
 }
-		}
-		}
-	  }
-	}
