@@ -64,14 +64,16 @@
       </plugins>
     </pluginManagement>
   </build>
-  <id>release-repo</id>
-<name>release-repo</name>
-<url>http://13.201.63.37:8081/repository/release-repo/</url>
-</repository>
-<snapshotRepository>
-<id>snapshot-repo</id>
-<name>snapshot-repo<</name>
-<url>http://13.201.63.37:8081/repository/snapshot-repo/</url>
-</snapshotRepository>
-</distributionManagement>
+  <distributionManagement>
+    <repository>
+      <id>release-repo</id>
+      <name>release-repo</name>
+      <url>http://13.201.63.37:8081/repository/release-repo/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshot-repo</id>
+      <name>snapshot-repo</name>
+      <url>http://13.201.63.37:8081/repository/snapshot-repo/</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
