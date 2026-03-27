@@ -34,7 +34,7 @@ pipeline{
       stage("docker_node"){
 	    steps{
 		 
-        sshagent(['docker_agent]) {
+        sshagent(['docker_node]) {
     
    
         sh """
