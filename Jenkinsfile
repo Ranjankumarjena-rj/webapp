@@ -31,10 +31,10 @@ pipeline{
 		}
 		}
 		  
-      stage("docker-slave"){
+      stage("docker_node"){
 	    steps{
 		 
-        sshagent(['docker-slave]) {
+        sshagent(['docker_agent]) {
     
    
         sh """
