@@ -36,9 +36,9 @@ pipeline {
             steps {
                 sshagent(['docker_agent']) {
                     sh """
-                        scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@3.110.133.13:/usr/local/tomcat/webapps/
-                        ssh -o StrictHostKeyChecking=no ec2-user@3.110.133.13 "/usr/local/tomcat/bin/shutdown.sh"
-                        ssh -o StrictHostKeyChecking=no ec2-user@3.110.133.13 "/usr/local/tomcat/bin/startup.sh"
+                        scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@3.110.133.13:/tmp/myweb.war
+                ssh -o StrictHostKeyChecking=no ec2-user@3.110.133.13 "docker cp /tmp/myweb.war tomcat:/usr/local/tomcat/webapps/"
+                ssh -o StrictHostKeyChecking=no ec2-user@3.110.133.13 "docker restart tomcat"
                     """
                 }
             }
