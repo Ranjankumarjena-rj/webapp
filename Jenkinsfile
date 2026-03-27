@@ -1,7 +1,7 @@
 pipeline{
  tools{
-        jdk 'JAVA_HOME'
-        maven 'M2_HOME'
+        jdk 'JAVA_HOME_DOCKER'
+        maven 'M2_HOME_DOCKER'
     }
      agent any
 	  
@@ -31,7 +31,7 @@ pipeline{
 		}
 		}
 		  
-      stage("deploy"){
+      stage("docker-slave"){
 	    steps{
 		 
         sshagent(['docker-slave]) {
@@ -39,10 +39,10 @@ pipeline{
    
         sh """
                  
-            scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@13.233.87.35:/home/ec2-user/tomcat10/apache-tomcat-10.1.52/webapps/
+            scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@3.110.133.13:/usr/local/tomcat/webapps/
 
-              ssh ec2-user@13.233.87.35 /home/ec2-user/tomcat10/apache-tomcat-10.1.52/bin/shutdown.sh
-              ssh ec2-user@13.233.87.35 /home/ec2-user/tomcat10/apache-tomcat-10.1.52/bin/startup.sh
+              ssh ec2-user@3.110.133.13 /usr/local/tomcat/bin/shutdown.sh
+              ssh ec2-user@3.110.133.13 /usr/local/tomcat/bin/startup.sh
             
           
           """
