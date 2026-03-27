@@ -34,7 +34,7 @@ pipeline {
 
         stage("Deploy to Tomcat") {
             steps {
-                sshagent(['docker_node']) {
+                sshagent(['docker_agent']) {
                     sh """
                         scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@3.110.133.13:/usr/local/tomcat/webapps/
                         ssh -o StrictHostKeyChecking=no ec2-user@3.110.133.13 "/usr/local/tomcat/bin/shutdown.sh"
