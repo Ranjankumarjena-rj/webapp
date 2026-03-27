@@ -34,7 +34,7 @@ pipeline{
       stage("deploy"){
 	    steps{
 		 
-        sshagent(['tomcat-2']) {
+        sshagent(['docker-slave]) {
     
    
         sh """
